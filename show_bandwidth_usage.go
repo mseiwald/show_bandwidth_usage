@@ -113,6 +113,10 @@ func sniff(device string, subnet string) {
 }
 
 func main() {
+	if os.Getuid() != 0 {
+		fmt.Fprintln(os.Stderr, "Must be root to capture network traffic.")
+		os.Exit(1)
+	}
 	transferredBytes.traffic = make(map[string]*Traffic)
 
 	device := flag.String("i", "", "interface to capture on")
